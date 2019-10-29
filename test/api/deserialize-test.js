@@ -271,6 +271,26 @@ describe('deserialize', () => {
     expect(product.custom).to.eql(true)
   })
 
+  it('should allow for custom attribute deserialization if present on the resource definition', () => {
+    jsonApi.define('product', {title: ''}, {
+      attributeDeserializer: {
+        title: v => '_' + v
+      }
+    })
+    let mockResponse = {
+      data: {
+        id: '1',
+        type: 'products',
+        attributes: {
+          title: 'Some Title',
+          about: 'Some about'
+        }
+      }
+    }
+    let product = deserialize.resource.call(jsonApi, mockResponse.data)
+    expect(product.title).to.eql('_Some Title')
+  })
+
   it('uses custom deserialization for each resource in a collection', () => {
     jsonApi.define('product', {title: ''}, {
       deserializer: () => {

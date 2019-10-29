@@ -27,7 +27,9 @@ function resource (modelName, item) {
     if (isRelationship(value)) {
       serializeRelationship(key, item[key], value, serializedRelationships)
     } else if (item[key] !== undefined) {
-      serializedAttributes[key] = item[key]
+      serializedAttributes[key] = options.attributeSerializer && options.attributeSerializer[key]
+        ? options.attributeSerializer[key](item[key])
+        : item[key]
     }
   })
 

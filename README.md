@@ -218,6 +218,12 @@ jsonApi.define('product', {
   },
   deserializer: (rawItem)=> {
     return {customStuff: true}
+  },
+  attributeSerializer: {
+      attr1: v => v
+  },
+  attributeDeserializer{
+      attr1: v => v
   }
 })
 ```
@@ -236,7 +242,7 @@ jsonApi.apiUrl = 'http://api.yoursite.com'
 
 // Use custom error builder
 jsonApi.errorBuilder = (error) => {
-    // add 'meta' in addition to title and detail 
+    // add 'meta' in addition to title and detail
     const { title, detail, meta } = error
     return { title, detail, meta }
 }
@@ -272,7 +278,7 @@ jsonApi.create('author', { name: 'Joanna Blogs' }) // Create an author
 jsonApi.create('post', { title: 'How to Make Relationships' }) // Create a post
 
 // Create a relationship between the author and the post
-jsonApi.one('author', 1).relationships('articles').patch([{ id: 1 }]) 
+jsonApi.one('author', 1).relationships('articles').patch([{ id: 1 }])
 ```
 
 ### Polymorphic Relationships

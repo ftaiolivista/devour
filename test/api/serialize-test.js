@@ -269,6 +269,16 @@ describe('serialize', () => {
     expect(serializedItem.custom).to.eql(true)
   })
 
+  it('should allow for custom attrbiute serialization if present on the model', () => {
+    jsonApi.define('product', {title: ''}, {
+      attributeSerializer: {
+        title: v => '_' + v
+      }
+    })
+    let serializedItem = serialize.resource.call(jsonApi, 'product', {id: '5', title: 'Hello'})
+    expect(serializedItem.attributes.title).to.eql('_Hello')
+  })
+
   it('should serialize polymorphic hasOne relationships', () => {
     jsonApi.define('order', {
       title: '',
