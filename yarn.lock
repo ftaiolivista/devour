@@ -2978,10 +2978,9 @@ micromatch@^3.1.10, micromatch@^3.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-minilog@^3.0.0:
+"minilog@https://github.com/ftaiolivista/minilog.git":
   version "3.1.0"
-  resolved "https://registry.yarnpkg.com/minilog/-/minilog-3.1.0.tgz#d2d0f1887ca363d1acf0ea86d5c4df293b3fb675"
-  integrity sha1-0tDxiHyjY9Gs8OqG1cTfKTs/tnU=
+  resolved "https://github.com/ftaiolivista/minilog.git#729997f6699c493281ff51919373a81d05bcceff"
   dependencies:
     microee "0.0.6"
 
