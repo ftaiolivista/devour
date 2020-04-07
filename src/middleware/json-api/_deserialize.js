@@ -12,7 +12,7 @@ const _flatten = require('lodash/flatten')
 
 const Logger = require('../../logger')
 
-const cache = new (class {
+class Cache {
     constructor () {
         this._cache = []
     }
@@ -33,24 +33,29 @@ const cache = new (class {
     clear () {
         this._cache = []
     }
-})()
+}
 
-function collection (items, included, useCache = false) {
+function collection (items, included, useCache = false, cache) {
+    cache = cache || new Cache()
     const collection = items.map(item => {
-        return resource.call(this, item, included, useCache)
+        return resource.call(this, item, included, useCache, cache)
     })
 
     return collection
 }
 
-function resource (item, included, useCache = false) {
+function resource (item, included, useCache = false, cache) {
+    cache = cache || new Cache()
+
     if (useCache) {
         const cachedItem = cache.get(item.type, item.id)
         if (cachedItem) return cachedItem
     }
 
     const model = this.modelFor(this.pluralize.singular(item.type))
-    if (model.options.deserializer) { return model.options.deserializer.call(this, item, included) }
+    if (model.options.deserializer) {
+        return model.options.deserializer.call(this, item, included)
+    }
 
     const deserializedModel = { id: item.id, type: item.type }
 
@@ -106,7 +111,8 @@ function resource (item, included, useCache = false) {
                 relConfig,
                 item,
                 included,
-                key
+                key,
+                cache
             )
         }
     })
@@ -121,7 +127,7 @@ function resource (item, included, useCache = false) {
     return deserializedModel
 }
 
-function attachRelationsFor (model, attribute, item, included, key) {
+function attachRelationsFor (model, attribute, item, included, key, cache) {
     let relation = null
     if (attribute.jsonApi === 'hasOne') {
         relation = attachHasOneFor.call(
@@ -130,7 +136,8 @@ function attachRelationsFor (model, attribute, item, included, key) {
             attribute,
             item,
             included,
-            key
+            key,
+            cache
         )
     }
     if (attribute.jsonApi === 'hasMany') {
@@ -140,32 +147,33 @@ function attachRelationsFor (model, attribute, item, included, key) {
             attribute,
             item,
             included,
-            key
+            key,
+            cache
         )
     }
     return relation
 }
 
-function attachHasOneFor (model, attribute, item, included, key) {
+function attachHasOneFor (model, attribute, item, included, key, cache) {
     if (!item.relationships) {
         return null
     }
 
     const relatedItems = relatedItemsFor(model, attribute, item, included, key)
     if (relatedItems && relatedItems[0]) {
-        return resource.call(this, relatedItems[0], included, true)
+        return resource.call(this, relatedItems[0], included, true, cache)
     } else {
         return null
     }
 }
 
-function attachHasManyFor (model, attribute, item, included, key) {
+function attachHasManyFor (model, attribute, item, included, key, cache) {
     if (!item.relationships) {
         return null
     }
     const relatedItems = relatedItemsFor(model, attribute, item, included, key)
     if (relatedItems && relatedItems.length > 0) {
-        return collection.call(this, relatedItems, included, true)
+        return collection.call(this, relatedItems, included, true, cache)
     }
     return []
 }
@@ -217,9 +225,8 @@ function isRelatedItemFor (attribute, relatedItem, relationMapItem) {
         passesFilter
     )
 }
-
 module.exports = {
-    cache: cache,
+    cache: { clear: () => {} },
     resource: resource,
     collection: collection
 }
