@@ -4,12 +4,20 @@ const _map = require('lodash/map')
 const _forOwn = require('lodash/forOwn')
 
 function collection (modelName, items) {
+  if (!modelName) {
+    return items
+  }
+
   return items.map(item => {
     return resource.call(this, modelName, item)
   })
 }
 
 function resource (modelName, item) {
+  if (!modelName) {
+    return item
+  }
+
   let model = this.modelFor(modelName)
   let options = model.options || {}
   let readOnly = options.readOnly || []
@@ -77,7 +85,7 @@ function serializeRelationship (relationshipName, relationship, relationshipType
 function serializeHasMany (relationships, type) {
   return {
     data: _map(relationships, (item) => {
-      return {id: item.id, type: type || item.type}
+      return {id: item.id, type: type || item.type, meta: item.meta}
     })
   }
 }
@@ -87,7 +95,7 @@ function serializeHasOne (relationship, type) {
     return {data: null}
   }
   return {
-    data: {id: relationship.id, type: type || relationship.type}
+    data: {id: relationship.id, type: type || relationship.type, meta: relationship.meta}
   }
 }
 
