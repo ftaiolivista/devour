@@ -41,6 +41,10 @@ const sendRequestMiddleware = require('./middleware/request')
 const deserializeResponseMiddleware = require('./middleware/json-api/res-deserialize')
 const errorsMiddleware = require('./middleware/json-api/res-errors')
 
+function isObject (v) {
+  return typeof v === 'object' && v !== null
+}
+
 class JsonApi {
   constructor (options = {}) {
     if (!(arguments.length === 2 && _isString(arguments[0]) && _isArray(arguments[1])) && !(arguments.length === 1 && (_isPlainObject(arguments[0]) || _isString(arguments[0])))) {
@@ -221,8 +225,8 @@ class JsonApi {
 
   destroy () {
     let req = null
-
-    if (arguments.length >= 2 && (arguments[1] instanceof String)) { // destroy (modelName, id, [payload], [meta])
+    console.log('arguments', arguments, isObject(arguments[1]))
+    if (arguments.length >= 2 && !isObject(arguments[0]) && !isObject(arguments[1])) { // destroy (modelName, id, [payload], [meta])
       const [model, id, data, meta] = [...arguments]
 
       console.assert(model, 'No model specified')
