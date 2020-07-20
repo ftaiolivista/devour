@@ -10,7 +10,7 @@ describe('Custom Error Builder', () => {
     jsonApi = new JsonApi({
       apiUrl: 'http://myapi.com',
       errorBuilder: (error) => {
-        const {title, detail, meta} = error
+        const { title, detail, meta } = error
         return {
           customTitle: `Custom title: ${title}`,
           customDetail: `Custom detail: ${detail}`,
@@ -31,18 +31,18 @@ describe('Custom Error Builder', () => {
         }]
       }
     },
-      [
-        {
-          status: 422,
-          source: {pointer: '/data/attributes/first-name'},
-          title: 'Invalid Attribute',
-          detail: 'First name must contain at least three characters.',
-          meta: {
-            created: '2019-07-15T13:23:21.177Z',
-            author: 'user@example.com'
-          }
+    [
+      {
+        status: 422,
+        source: { pointer: '/data/attributes/first-name' },
+        title: 'Invalid Attribute',
+        detail: 'First name must contain at least three characters.',
+        meta: {
+          created: '2019-07-15T13:23:21.177Z',
+          author: 'user@example.com'
         }
-      ])
+      }
+    ])
 
     // define model
     jsonApi.define('product', {
@@ -68,13 +68,13 @@ describe('Custom Error Builder', () => {
         done(new Error('Expected method to reject'))
       })
       .catch((error) => {
-        expect(error).to.be.defined
+        expect(error).to.be.defined()
         expect(error).to.be.an('object')
         error = error['first-name']
-        expect(error).to.be.defined
+        expect(error).to.be.defined()
         expect(error).to.be.an('object')
-        expect(error.title).not.to.be.defined
-        expect(error.details).not.to.be.defined
+        expect(error.title).not.to.be.defined()
+        expect(error.details).not.to.be.defined()
         expect(error.customTitle).to.be.a('string')
         expect(error.customTitle).to.equal('Custom title: Invalid Attribute')
         expect(error.customDetail).to.be.a('string')

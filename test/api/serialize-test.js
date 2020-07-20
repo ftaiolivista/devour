@@ -7,7 +7,7 @@ import expect from 'expect.js'
 describe('serialize', () => {
   var jsonApi = null
   beforeEach(() => {
-    jsonApi = new JsonApi({apiUrl: 'http://myapi.com'})
+    jsonApi = new JsonApi({ apiUrl: 'http://myapi.com' })
   })
 
   it('should not serialize undefined attributes', () => {
@@ -15,7 +15,7 @@ describe('serialize', () => {
       title: '',
       about: ''
     })
-    let serializedItem = serialize.resource.call(jsonApi, 'product', {title: undefined, about: undefined})
+    const serializedItem = serialize.resource.call(jsonApi, 'product', { title: undefined, about: undefined })
     expect(serializedItem.attributes).to.eql(undefined)
   })
 
@@ -24,7 +24,7 @@ describe('serialize', () => {
       title: '',
       about: ''
     })
-    let serializedItem = serialize.resource.call(jsonApi, 'product', {title: 'Hello', about: 'World'})
+    const serializedItem = serialize.resource.call(jsonApi, 'product', { title: 'Hello', about: 'World' })
     expect(serializedItem.type).to.eql('products')
     expect(serializedItem.attributes.title).to.eql('Hello')
     expect(serializedItem.attributes.about).to.eql('World')
@@ -42,16 +42,16 @@ describe('serialize', () => {
     jsonApi.define('tag', {
       name: ''
     })
-    let product = {
+    const product = {
       title: 'hello',
       about: 'relationships',
       tags: [
-        {id: 1, name: 'red'},
-        {id: 2, name: 'green'},
-        {id: 3, name: 'blue'}
+        { id: 1, name: 'red' },
+        { id: 2, name: 'green' },
+        { id: 3, name: 'blue' }
       ]
     }
-    let serializedItem = serialize.resource.call(jsonApi, 'product', product)
+    const serializedItem = serialize.resource.call(jsonApi, 'product', product)
     expect(serializedItem.relationships.tags.data[0].id).to.eql(1)
     expect(serializedItem.relationships.tags.data[0].type).to.eql('tags')
     expect(serializedItem.relationships.tags.data[1].id).to.eql(2)
@@ -80,14 +80,14 @@ describe('serialize', () => {
       name: ''
     })
 
-    let product = {
+    const product = {
       title: 'hello',
       about: 'relationships',
       tags: [
-        {id: 1, name: 'red'}
+        { id: 1, name: 'red' }
       ]
     }
-    let serializedItem = serialize.resource.call(jsonApi, 'product', product)
+    const serializedItem = serialize.resource.call(jsonApi, 'product', product)
     expect(serializedItem).to.have.property('relationships')
     expect(serializedItem.relationships.tags.data).to.be.an('array')
     expect(serializedItem.relationships.tags.data[0].id).to.eql(1)
@@ -109,12 +109,12 @@ describe('serialize', () => {
       name: ''
     })
 
-    let product = {
+    const product = {
       title: 'hello',
       about: 'relationships'
     }
 
-    let serializedItem = serialize.resource.call(jsonApi, 'product', product)
+    const serializedItem = serialize.resource.call(jsonApi, 'product', product)
     expect(serializedItem).not.to.have.property('relationships')
   })
 
@@ -138,12 +138,12 @@ describe('serialize', () => {
       name: ''
     })
 
-    let product = {
+    const product = {
       title: 'hello',
       about: 'relationships',
       category: null
     }
-    let serializedItem = serialize.resource.call(jsonApi, 'product', product)
+    const serializedItem = serialize.resource.call(jsonApi, 'product', product)
     expect(serializedItem).to.have.property('relationships')
     expect(serializedItem.relationships.category.data).to.eql(null)
   })
@@ -168,12 +168,12 @@ describe('serialize', () => {
       name: ''
     })
 
-    let product = {
+    const product = {
       title: 'hello',
       about: 'relationships',
       tags: []
     }
-    let serializedItem = serialize.resource.call(jsonApi, 'product', product)
+    const serializedItem = serialize.resource.call(jsonApi, 'product', product)
     expect(serializedItem).to.have.property('relationships')
     expect(serializedItem.relationships.tags.data).to.be.an('array')
     expect(serializedItem.relationships.tags.data.length).to.eql(0)
@@ -191,12 +191,12 @@ describe('serialize', () => {
     jsonApi.define('tag', {
       name: ''
     })
-    let product = {
+    const product = {
       title: 'hello',
       about: 'relationships',
-      tags: {id: 1, name: 'red'}
+      tags: { id: 1, name: 'red' }
     }
-    let serializedItem = serialize.resource.call(jsonApi, 'product', product)
+    const serializedItem = serialize.resource.call(jsonApi, 'product', product)
     expect(serializedItem.relationships.tags.data.id).to.eql(1)
     expect(serializedItem.relationships.tags.data.type).to.eql('tags')
   })
@@ -212,7 +212,7 @@ describe('serialize', () => {
     }, {
       readOnly: ['url', 'anotherReadOnly']
     })
-    let serializedItem = serialize.resource.call(jsonApi, 'product', {title: 'Hello', about: 'World', url: 'something'})
+    const serializedItem = serialize.resource.call(jsonApi, 'product', { title: 'Hello', about: 'World', url: 'something' })
     expect(serializedItem.type).to.eql('products')
     expect(serializedItem.attributes.title).to.eql('Hello')
     expect(serializedItem.attributes.about).to.eql('World')
@@ -225,8 +225,8 @@ describe('serialize', () => {
       title: '',
       about: ''
     })
-    let serializedItems = serialize.collection.call(jsonApi, 'product', [
-      {title: 'hello', about: 'one'}, {title: 'goodbye', about: 'two'}
+    const serializedItems = serialize.collection.call(jsonApi, 'product', [
+      { title: 'hello', about: 'one' }, { title: 'goodbye', about: 'two' }
     ])
     expect(serializedItems[0].type).to.eql('products')
     expect(serializedItems[1].type).to.eql('products')
@@ -237,45 +237,45 @@ describe('serialize', () => {
   })
 
   it('should serialize the id of items if present', () => {
-    jsonApi.define('product', {title: ''})
-    let serializedItem = serialize.resource.call(jsonApi, 'product', {id: '5', title: 'Hello'})
+    jsonApi.define('product', { title: '' })
+    const serializedItem = serialize.resource.call(jsonApi, 'product', { id: '5', title: 'Hello' })
     expect(serializedItem.type).to.eql('products')
     expect(serializedItem.id).to.eql('5')
   })
 
   it('should serialize meta on resource if present', () => {
-    jsonApi.define('product', {title: ''})
-    let serializedItem = serialize.resource.call(jsonApi, 'product', {id: '5', title: 'Hello', meta: {customStuff: 'More custom stuff'}})
+    jsonApi.define('product', { title: '' })
+    const serializedItem = serialize.resource.call(jsonApi, 'product', { id: '5', title: 'Hello', meta: { customStuff: 'More custom stuff' } })
     expect(serializedItem.type).to.eql('products')
     expect(serializedItem.meta.customStuff).to.eql('More custom stuff')
   })
 
   it('should serialize links on resource if present', () => {
-    jsonApi.define('product', {title: ''})
-    let serializedItem = serialize.resource.call(jsonApi, 'product', {id: '5', title: 'Hello', links: {self: 'http://example.com/products'}})
+    jsonApi.define('product', { title: '' })
+    const serializedItem = serialize.resource.call(jsonApi, 'product', { id: '5', title: 'Hello', links: { self: 'http://example.com/products' } })
     expect(serializedItem.type).to.eql('products')
     expect(serializedItem.links.self).to.eql('http://example.com/products')
   })
 
   it('should allow for custom serialization if present on the model', () => {
-    jsonApi.define('product', {title: ''}, {
+    jsonApi.define('product', { title: '' }, {
       serializer: () => {
         return {
           custom: true
         }
       }
     })
-    let serializedItem = serialize.resource.call(jsonApi, 'product', {id: '5', title: 'Hello'})
+    const serializedItem = serialize.resource.call(jsonApi, 'product', { id: '5', title: 'Hello' })
     expect(serializedItem.custom).to.eql(true)
   })
 
   it('should allow for custom attrbiute serialization if present on the model', () => {
-    jsonApi.define('product', {title: ''}, {
+    jsonApi.define('product', { title: '' }, {
       attributeSerializer: {
         title: v => '_' + v
       }
     })
-    let serializedItem = serialize.resource.call(jsonApi, 'product', {id: '5', title: 'Hello'})
+    const serializedItem = serialize.resource.call(jsonApi, 'product', { id: '5', title: 'Hello' })
     expect(serializedItem.attributes.title).to.eql('_Hello')
   })
 
@@ -287,7 +287,7 @@ describe('serialize', () => {
       }
     })
 
-    let serializedItem = serialize.resource.call(jsonApi, 'order', {id: '5', title: 'Hello', payable: {id: 4, type: 'subtotal'}})
+    const serializedItem = serialize.resource.call(jsonApi, 'order', { id: '5', title: 'Hello', payable: { id: 4, type: 'subtotal' } })
     expect(serializedItem.type).to.eql('orders')
     expect(serializedItem.attributes.title).to.eql('Hello')
     expect(serializedItem.relationships.payable.data.id).to.eql(4)
@@ -302,7 +302,7 @@ describe('serialize', () => {
       }
     })
 
-    let serializedItem = serialize.resource.call(jsonApi, 'order', {id: '5', title: 'Hello', payables: [{id: 4, type: 'subtotal'}, {id: 4, type: 'tax'}]})
+    const serializedItem = serialize.resource.call(jsonApi, 'order', { id: '5', title: 'Hello', payables: [{ id: 4, type: 'subtotal' }, { id: 4, type: 'tax' }] })
     expect(serializedItem.type).to.eql('orders')
     expect(serializedItem.attributes.title).to.eql('Hello')
     expect(serializedItem.relationships.payables.data[0].id).to.eql(4)
@@ -319,11 +319,15 @@ describe('serialize', () => {
         type: 'categories'
       }
     })
-    let serializedItem = serialize.resource.call(jsonApi, 'product', {id: '5', title: 'Hello', category: {
-      id: 4,
-      type: 'categories',
-      meta: {customStuff: 'More custom stuff'}
-    }})
+    const serializedItem = serialize.resource.call(jsonApi, 'product', {
+      id: '5',
+      title: 'Hello',
+      category: {
+        id: 4,
+        type: 'categories',
+        meta: { customStuff: 'More custom stuff' }
+      }
+    })
     expect(serializedItem.relationships.category.data.meta.customStuff).to.eql('More custom stuff')
   })
 
@@ -335,11 +339,16 @@ describe('serialize', () => {
         type: 'tags'
       }
     })
-    let serializedItem = serialize.resource.call(jsonApi, 'product', {id: '5', title: 'Hello', tags: [{
-      id: 4,
-      type: 'tags',
-      meta: {customStuff: 'More custom stuff'}}
-    ]})
+    const serializedItem = serialize.resource.call(jsonApi, 'product', {
+      id: '5',
+      title: 'Hello',
+      tags: [{
+        id: 4,
+        type: 'tags',
+        meta: { customStuff: 'More custom stuff' }
+      }
+      ]
+    })
     expect(serializedItem.relationships.tags.data[0].meta.customStuff).to.eql('More custom stuff')
   })
 
@@ -348,7 +357,7 @@ describe('serialize', () => {
       id: '5',
       title: 'Hello'
     }
-    let serializedItem = serialize.collection.call(
+    const serializedItem = serialize.collection.call(
       jsonApi,
       undefined,
       data
@@ -362,7 +371,7 @@ describe('serialize', () => {
       id: '5',
       title: 'Hello'
     }
-    let serializedItem = serialize.resource.call(
+    const serializedItem = serialize.resource.call(
       jsonApi,
       undefined,
       data
