@@ -225,7 +225,6 @@ class JsonApi {
 
   destroy () {
     let req = null
-    console.log('arguments', arguments, isObject(arguments[1]))
     if (arguments.length >= 2 && !isObject(arguments[0]) && !isObject(arguments[1])) { // destroy (modelName, id, [payload], [meta])
       const [model, id, data, meta] = [...arguments]
 
