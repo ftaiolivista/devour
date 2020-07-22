@@ -1,6 +1,6 @@
 {
   "name": "@vista/devour-client",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "A lightweight, framework agnostic, flexible JSON API client",
   "main": "lib/",
   "scripts": {
