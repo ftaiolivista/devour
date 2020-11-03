@@ -38,7 +38,7 @@ module.exports = {
     }
 
     if (res.data && data) {
-      var params = ['meta', 'links']
+      const params = ['meta', 'links']
       params.forEach(function (param) {
         if (res.data[param]) {
           data[param] = res.data[param]

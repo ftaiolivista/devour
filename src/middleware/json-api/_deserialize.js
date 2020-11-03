@@ -60,7 +60,7 @@ function resource (item, included, useCache = false, cache) {
   const deserializedModel = { id: item.id, type: item.type }
 
   _forOwn(item.attributes, (value, attr) => {
-    var attrConfig = model.attributes[attr]
+    let attrConfig = model.attributes[attr]
 
     if (_isUndefined(attrConfig) && attr !== 'id') {
       attr = attr.replace(/-([a-z])/g, function (g) {
@@ -86,8 +86,8 @@ function resource (item, included, useCache = false, cache) {
   cache.set(item.type, item.id, deserializedModel)
 
   _forOwn(item.relationships, (value, rel) => {
-    var relConfig = model.attributes[rel]
-    var key = rel
+    let relConfig = model.attributes[rel]
+    const key = rel
 
     if (_isUndefined(relConfig)) {
       rel = rel.replace(/-([a-z])/g, function (g) {
@@ -117,7 +117,7 @@ function resource (item, included, useCache = false, cache) {
     }
   })
 
-  var params = ['meta', 'links']
+  const params = ['meta', 'links']
   params.forEach(function (param) {
     if (item[param]) {
       deserializedModel[param] = item[param]

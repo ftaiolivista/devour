@@ -9,7 +9,7 @@ import sinon from 'sinon'
 import _last from 'lodash/last'
 
 describe('JsonApi', () => {
-  var jsonApi = null
+  let jsonApi = null
   beforeEach(() => {
     jsonApi = new JsonApi({ apiUrl: 'http://myapi.com' })
   })
@@ -761,7 +761,7 @@ describe('JsonApi', () => {
       jsonApi.request(url, method, params, data)
 
       expect(jsonApi.runMiddleware.called).to.be.ok()
-      expect(jsonApi.runMiddleware.calledWith(url, method, params, data)).to.be.ok()
+      expect(jsonApi.runMiddleware.calledWith(url, method, params, data)).to.be.ok
     })
 
     it('should handle null primary data', (done) => {

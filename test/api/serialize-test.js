@@ -5,7 +5,7 @@ import serialize from '../../src/middleware/json-api/_serialize'
 import expect from 'expect.js'
 
 describe('serialize', () => {
-  var jsonApi = null
+  let jsonApi = null
   beforeEach(() => {
     jsonApi = new JsonApi({ apiUrl: 'http://myapi.com' })
   })

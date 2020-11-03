@@ -5,7 +5,7 @@ import deserialize from '../../src/middleware/json-api/_deserialize'
 import expect from 'expect.js'
 
 describe('deserialize', () => {
-  var jsonApi = null
+  let jsonApi = null
   before(() => {
     jsonApi = new JsonApi({ apiUrl: 'http://myapi.com' })
   })
@@ -355,8 +355,8 @@ describe('deserialize', () => {
       ]
     }
     const products = deserialize.collection.call(jsonApi, mockResponse.data)
-    expect(products[0].title).to.be.undefined()
-    expect(products[0].about).to.be.undefined()
+    expect(products[0].title).to.be.undefined
+    expect(products[0].about).to.be.undefined
     expect(products[1].title).to.be.eql('Another Title')
     expect(products[1].about).to.be.eql('Another about')
   })
@@ -398,7 +398,7 @@ describe('deserialize', () => {
     expect(product.title).to.eql('hello')
     expect(product.tags).to.be.an('array')
     expect(product.tags[0].id).to.eql('5')
-    expect(product.tags[0].name).to.be.undefined()
+    expect(product.tags[0].name).to.be.undefined
     expect(product.tags[1].id).to.eql('6')
     expect(product.tags[1].name).to.eql('two')
   })
